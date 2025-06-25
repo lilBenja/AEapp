@@ -85,7 +85,7 @@ class ImagenCarga(models.Model):
         max_width = 1280
         if img.width > max_width:
             height = int((max_width / img.width) * img.height)
-            img = img.resize((max_width, height), Image.ANTIALIAS)
+            img = img.resize((max_width, height), Image.Resampling.LANCZOS)
 
         buffer = BytesIO()
         img.save(buffer, format='JPEG', quality=80)
