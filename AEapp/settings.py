@@ -142,3 +142,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'menu'  # o la vista a la que quieres ir luego de iniciar sesión
 LOGOUT_REDIRECT_URL = 'login'  # opcional si ya usas next_page en la URL
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-a7729.up.railway.app',
+]
