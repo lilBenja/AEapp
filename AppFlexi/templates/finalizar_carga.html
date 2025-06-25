@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Finalizar carga - {{ tipo|title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #f4f6f8;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 28px 20px 20px 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d3a4b;
+      margin-bottom: 18px;
+    }
+    .images {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .images img {
+      max-width: 140px;
+      max-height: 120px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      background: #fafbfc;
+      object-fit: cover;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    button[type="submit"] {
+      background: #0078d4;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 0;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: #005fa3;
+    }
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #0078d4;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #005fa3;
+    }
+    @media (max-width: 600px) {
+      .container {
+        max-width: 98vw;
+        margin: 12px 1vw;
+        padding: 16px 6px 12px 6px;
+      }
+      .images img {
+        max-width: 90vw;
+        max-height: 30vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Finalizar carga - {{ tipo|title }}</h2>
+
+    <div class="images">
+      {% if tipo == "flexitank" %}
+        {% for img in flexitank_images %}
+          <img src="{{ img.url }}" alt="Imagen Flexitank">
+        {% endfor %}
+      {% elif tipo == "flexicarga" %}
+        {% for img in flexicarga_images %}
+          <img src="{{ img.url }}" alt="Imagen Flexicarga">
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Guardar cambios</button>
+    </form>
+
+    <a href="{% url 'ver_cargas' %}">← Volver</a>
+  </div>
+</body>
+</html>

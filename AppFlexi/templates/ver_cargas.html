@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Cargas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 24px 18px 32px 18px;
+    }
+    h3 {
+      color: #2a4d69;
+      border-bottom: 1px solid #e3e6f0;
+      padding-bottom: 6px;
+      margin-top: 32px;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+    form label {
+      flex: 1 1 100px;
+      color: #2a4d69;
+      font-weight: 500;
+    }
+    form select, form input[type="date"] {
+      flex: 2 1 180px;
+      padding: 7px 10px;
+      border: 1px solid #bfc9d9;
+      border-radius: 5px;
+      background: #f8fafc;
+      font-size: 1em;
+    }
+    form button[type="submit"] {
+      background: #2a4d69;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 22px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    form button[type="submit"]:hover {
+      background: #1e3550;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0 0;
+    }
+    ul li {
+      background: #f8fafc;
+      margin-bottom: 10px;
+      padding: 12px 14px;
+      border-radius: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(42,77,105,0.04);
+    }
+    ul li a {
+      background: #f67280;
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.97em;
+      transition: background 0.2s;
+    }
+    ul li a:hover {
+      background: #c94f60;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      justify-content: flex-end;
+    }
+    .actions button, .actions a {
+      background: #355c7d;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .actions button:hover, .actions a:hover {
+      background: #2a4d69;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px 4px 18px 4px;
+      }
+      form {
+        flex-direction: column;
+        gap: 10px;
+      }
+      form label, form select, form input[type="date"], form button[type="submit"] {
+        flex: 1 1 100%;
+        width: 100%;
+      }
+      ul li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .actions {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <form method="get">
+    <label for="tipo_carga">Tipo de Carga:</label>
+    <select name="tipo_carga" id="tipo_carga">
+      <option value="">-- Todas --</option>
+      <option value="flexitank">Flexitank</option>
+      <option value="flexirampla">Flexirampla</option>
+    </select>
+
+    <<label>Empresa:</label>
+        <select name="empresa">
+            <option value="">Todas</option>
+            <option value="Tiba">Tiba</option>
+            <option value="Manuport">Manuport</option>
+            <option value="Hillebrand">Hillebrand</option>
+            <option value="DHL">DHL</option>
+            <option value="Belog">Belog</option>
+            <option value="Cacsa">Cacsa</option>
+            <option value="Otra">Otra empresa</option>
+        </select>
+
+        <label>Fecha:</label>
+
+    <label for="fecha">Fecha de Armado:</label>
+    <input type="date" name="fecha" id="fecha" value="{{ request.GET.fecha }}">
+
+    <button type="submit">Filtrar</button>
+  </form>
+
+  <h3>Flexitanks</h3>
+  <ul>
+    {% for carga in flexitanks %}
+    <li>
+      <span>{{ carga.contenedor }} - {{ carga.empresa }} - {{ carga.fecha_armado }}</span>
+      <a href="{% url 'finalizar_carga' 'flexitank' carga.pk %}">Finalizar</a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Flexiramplas</h3>
+  <ul>
+    {% for carga in flexiramplas %}
+    <li>
+      <span>{{ carga.patente_camion }} - {{ carga.empresa }} - {{ carga.fecha_armado }}</span>
+      <a href="{% url 'finalizar_carga' 'flexirampla' carga.pk %}">Finalizar</a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <div class="actions">
+    <button type="button" onclick="window.history.back()">Volver</button>
+    <a href="{% url 'menu' %}">Volver al menú</a>
+  </div>
+</div>
+</body>
+</html>

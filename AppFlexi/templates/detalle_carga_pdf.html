@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 18px; }
+        h1 { text-align: center; font-size: 2.2em; }
+        .contenido { margin: 30px; }
+        p, li { font-size: 1.15em; }
+        .imagenes { margin: 40px 30px 20px 30px; }
+        .imagenes h2 { font-size: 1.3em; margin-bottom: 10px; }
+        .imagenes img { max-width: 100%; height: auto; margin-bottom: 15px; display: block; }
+    </style>
+</head>
+<body>
+    <h1>Detalles de Carga</h1>
+    <div class="contenido">
+        <p><strong>Empresa:</strong> {{ carga.empresa }}</p>
+        <p><strong>Fecha de armado:</strong> {{ carga.fecha_armado }}</p>
+        {% if tipo == 'flexitank' %}
+            <p><strong>Contenedor:</strong> {{ carga.contenedor }}</p>
+            <p><strong>Sello Flexi:</strong> {{ carga.sello_flexi }}</p>
+        {% else %}
+            <p><strong>Patente camión:</strong> {{ carga.patente_camion }}</p>
+        {% endif %}
+        <p><strong>Litros cargados:</strong> {{ carga.litros_cargados }}</p>
+        <p><strong>Comentarios:</strong> {{ carga.comentarios }}</p>
+    </div>
+    <div class="detalle-imgs">
+            {% if carga.imagenes.all %}
+                <h5 class="mb-2">Imágenes:</h5>
+                <div class="row">
+                    {% for imagen in carga.imagenes.all %}
+                        <div class="col-6 col-md-4 col-lg-3 mb-3">
+                            <img src="{{ imagen.imagen.url }}" alt="Imagen" class="img-fluid">
+                        </div>
+                    {% empty %}
+                        <p>Sin imágenes.</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No hay imágenes cargadas.</p>
+            {% endif %}
+        </div>
+</body>
+</html>

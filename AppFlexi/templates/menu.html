@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background: #2a5298;
+            color: #fff;
+            margin: 0;
+            padding: 30px 0 20px 0;
+            text-align: center;
+            letter-spacing: 1px;
+            font-size: 2em;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 400px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(42,82,152,0.08);
+        }
+        li {
+            border-bottom: 1px solid #e3e6ee;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        a, button.logout-btn {
+            display: block;
+            padding: 18px 30px;
+            color: #2a5298;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background 0.2s, color 0.2s;
+            background: none;
+            border: none;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        a:hover, .logout-btn:hover {
+            background: #2a5298;
+            color: #fff;
+        }
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.3em;
+                padding: 20px 0 15px 0;
+            }
+            ul {
+                max-width: 95vw;
+                margin: 20px auto;
+                border-radius: 8px;
+            }
+            a, button.logout-btn {
+                padding: 14px 16px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido al menú</h1>
+    <h1>Logística AE</h1>
+    <ul>
+        {% if tipo_usuario != 'empresa' %}
+            <li><a href="{% url 'carga' %}">Carga</a></li>
+            <li><a href="#">Trasvasije</a></li>
+            <li><a href="#">Inspección Contenedor</a></li>
+            <li><a href="#">Inspección Flexitank</a></li>
+        {% endif %}
+        <li><a href="{% url 'ver_cargas' %}">Ver cargas pendientes</a></li>
+        <li><a href="{% url 'ver_cargas_finalizadas' %}">Cargas Finalizadas</a></li>
+        <li>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>

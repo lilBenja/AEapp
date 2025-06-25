@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Carga Flexirampla</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS (puedes ajustar la ruta si usas CDN/local) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+        .detalle-card {
+            max-width: 700px;
+            margin: 40px auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+            background: #fff;
+        }
+        .detalle-header {
+            background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+            color: #fff;
+            padding: 32px 32px 18px 32px;
+        }
+        .detalle-header h2 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 2rem;
+        }
+        .detalle-body {
+            padding: 32px;
+        }
+        .detalle-label {
+            font-weight: 500;
+            color: #0056b3;
+        }
+        .detalle-imgs {
+            margin-top: 18px;
+        }
+        .detalle-imgs img {
+            border: 2px solid #e3e6ea;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .detalle-actions {
+            margin-top: 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+        @media (max-width: 600px) {
+            .detalle-card, .detalle-header, .detalle-body {
+                padding: 16px !important;
+            }
+            .detalle-header {
+                padding-bottom: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+<div class="detalle-card">
+    <div class="detalle-header">
+        <h2>Detalle Carga Flexirampla</h2>
+    </div>
+    <div class="detalle-body">
+        <div class="mb-3">
+            <span class="detalle-label">Empresa:</span>
+            <span>{{ carga.empresa }}</span>
+        </div>
+        <div class="mb-3">
+            <span class="detalle-label">Patente camión:</span>
+            <span>{{ carga.patente_camion }}</span>
+        </div>
+        <div class="mb-3">
+            <span class="detalle-label">Fecha de armado:</span>
+            <span>{{ carga.fecha_armado }}</span>
+        </div>
+        <div class="mb-3">
+            <span class="detalle-label">Litros cargados:</span>
+            <span>{{ carga.litros_cargados }}</span>
+        </div>
+        <div class="mb-3">
+            <span class="detalle-label">Comentarios:</span>
+            <span>{{ carga.comentarios }}</span>
+        </div>
+        <a href="{% url 'descargar_carga_pdf' tipo=tipo pk=carga.id %}" class="btn btn-success mb-3">Descargar PDF</a>
+        <div class="detalle-imgs">
+            {% if carga.imagenes.all %}
+                <h5 class="mb-2">Imágenes:</h5>
+                <div class="row">
+                    {% for imagen in carga.imagenes.all %}
+                        <div class="col-6 col-md-4 col-lg-3 mb-3">
+                            <img src="{{ imagen.imagen.url }}" alt="Imagen" class="img-fluid">
+                        </div>
+                    {% empty %}
+                        <p>Sin imágenes.</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">No hay imágenes cargadas.</p>
+            {% endif %}
+        </div>
+        <div class="detalle-actions">
+            <button onclick="window.history.back()" class="btn btn-secondary">Volver</button>
+            <a href="{% url 'menu' %}" class="btn btn-outline-primary">Volver al Menú</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- Bootstrap JS (opcional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Carga Flexitank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f0ff 0%, #fafcff 100%);
+            min-height: 100vh;
+        }
+        .card {
+            border-radius: 18px;
+            border: none;
+        }
+        .card-header {
+            background: linear-gradient(90deg, #007bff 60%, #00c6ff 100%);
+            border-radius: 18px 18px 0 0;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.1);
+        }
+        .card-body {
+            background: #fff;
+            border-radius: 0 0 18px 18px;
+        }
+        .btn-success {
+            background: linear-gradient(90deg, #28a745 60%, #43e97b 100%);
+            border: none;
+        }
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+        }
+        .img-fluid {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+            width: 100%;
+            height: auto;
+            max-width: 200px;
+        }
+        .img-fluid:hover {
+            transform: scale(1.05);
+        }
+        h2, h4 {
+            font-weight: 700;
+        }
+        .info-label {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .mb-0 {
+            margin-bottom: 0 !important;
+        }
+        .ml-2 {
+            margin-left: 0.5rem !important;
+        }
+        @media (max-width: 767.98px) {
+            .card {
+                border-radius: 10px;
+            }
+            .card-header {
+                border-radius: 10px 10px 0 0;
+                padding: 1rem;
+            }
+            .card-body {
+                border-radius: 0 0 10px 10px;
+                padding: 1rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h4 {
+                font-size: 1.1rem;
+            }
+            .img-fluid {
+                max-width: 100%;
+            }
+            .row {
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+            .col-md-3 {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            .mt-4, .mb-3 {
+                margin-top: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            .btn, .btn-outline-primary, .btn-success, .btn-secondary {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            .ml-2 {
+                margin-left: 0 !important;
+            }
+            .container {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header text-white">
+            <h2 class="mb-0">Detalle Carga Flexitank</h2>
+        </div>
+        <div class="card-body">
+            <p><span class="info-label">Empresa:</span> {{ carga.empresa }}</p>
+            <p><span class="info-label">Contenedor:</span> {{ carga.contenedor }}</p>
+            <p><span class="info-label">Fecha de armado:</span> {{ carga.fecha_armado }}</p>
+            <p><span class="info-label">Litros cargados:</span> {{ carga.litros_cargados }}</p>
+            <p><span class="info-label">Comentarios:</span> {{ carga.comentarios }}</p>
+            <a href="{% url 'descargar_carga_pdf' tipo=tipo pk=carga.id %}" class="btn btn-success mb-3">Descargar PDF</a>
+            {% if carga.imagenes.all %}
+                <h4 class="mt-4 mb-3">Imágenes:</h4>
+                <div class="row">
+                    {% for imagen in carga.imagenes.all %}
+                        <div class="col-md-3 mb-3 col-6">
+                            <img src="{{ imagen.imagen.url }}" alt="Imagen" class="img-fluid rounded border">
+                        </div>
+                    {% empty %}
+                        <p>Sin imágenes.</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No hay imágenes cargadas.</p>
+            {% endif %}
+            <div class="mt-4 d-flex flex-wrap">
+                <button onclick="window.history.back()" class="btn btn-secondary mr-2 mb-2">Volver</button>
+                <a href="{% url 'menu' %}" class="btn btn-outline-primary mb-2">Volver al Menú</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

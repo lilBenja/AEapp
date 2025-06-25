@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargas Finalizadas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 18px 32px 18px;
+        }
+        h2 {
+            color: #2a5d84;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 6px;
+            margin-top: 32px;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+        form label {
+            min-width: 110px;
+            font-weight: 500;
+            color: #444;
+        }
+        form select, form input[type="date"] {
+            padding: 6px 10px;
+            border: 1px solid #bfc9d1;
+            border-radius: 5px;
+            font-size: 1em;
+            background: #f8fafb;
+        }
+        form button {
+            background: #2a5d84;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 18px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        form button:hover {
+            background: #1b3d56;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0 0 0;
+        }
+        ul li {
+            background: #f8fafb;
+            margin-bottom: 8px;
+            padding: 12px 14px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e0e6ed;
+        }
+        ul li a {
+            color: #2a5d84;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 16px;
+            transition: color 0.2s;
+        }
+        ul li a:hover {
+            color: #17405e;
+            text-decoration: underline;
+        }
+        .export-form {
+            margin: 32px 0 0 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .export-form button {
+            font-size: 1em;
+            padding: 8px 20px;
+            background: #4caf50;
+            border-radius: 5px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .export-form button:hover {
+            background: #388e3c;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 28px;
+            color: #2a5d84;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #17405e;
+            text-decoration: underline;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 10px 2vw 20px 2vw;
+            }
+            form {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+            ul li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .export-form {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form method="get">
+        <label>Tipo de carga:</label>
+        <select name="tipo">
+            <option value="">Todos</option>
+            <option value="Flexitank">Flexitank</option>
+            <option value="Flexirampla">Flexirampla</option>
+        </select>
+
+        <label>Empresa:</label>
+        <select name="empresa">
+            <option value="">Todas</option>
+            <option value="Tiba">Tiba</option>
+            <option value="Manuport">Manuport</option>
+            <option value="Hillebrand">Hillebrand</option>
+            <option value="DHL">DHL</option>
+            <option value="Belog">Belog</option>
+            <option value="Cacsa">Cacsa</option>
+            <option value="Otra">Otra empresa</option>
+        </select>
+
+        <label>Fecha:</label>
+        <input type="date" name="fecha">
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <h2>Flexitanks Finalizados</h2>
+    <ul>
+        {% for carga in flexitanks %}
+            <li>
+                <span>{{ carga }}</span>
+                <a href="{% url 'detalle_flexitank' carga.id %}">Ver detalles</a>
+            </li>
+        {% empty %}
+            <li>No hay cargas flexitank finalizadas.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Flexiramplas Finalizadas</h2>
+    <ul>
+        {% for carga in flexiramplas %}
+            <li>
+                <span>{{ carga }}</span>
+                <a href="{% url 'detalle_flexirampla' carga.id %}">Ver detalles</a>
+            </li>
+        {% empty %}
+            <li>No hay cargas flexirampla finalizadas.</li>
+        {% endfor %}
+    </ul>
+
+    <form class="export-form" method="get" action="{% url 'exportar_cargas_finalizadas' %}">
+        <input type="hidden" name="tipo_carga" value="{{ request.GET.tipo_carga }}">
+        <input type="hidden" name="empresa" value="{{ request.GET.empresa }}">
+        <input type="hidden" name="fecha" value="{{ request.GET.fecha }}">
+        <button type="submit">📥 Exportar finalizadas a Excel</button>
+    </form>
+
+    <a class="back-link" href="{% url 'menu' %}">← Volver al Menú</a>
+</div>
+</body>
+</html>
