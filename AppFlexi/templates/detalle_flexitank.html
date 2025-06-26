@@ -119,6 +119,10 @@
             <p><span class="info-label">Contenedor:</span> {{ carga.contenedor }}</p>
             <p><span class="info-label">Fecha de armado:</span> {{ carga.fecha_armado }}</p>
             <p><span class="info-label">Litros cargados:</span> {{ carga.litros_cargados }}</p>
+            <p><span class="info-label">Número de flexi:</span> {{ carga.numero_flexi }}</p>
+            <p><span class="info-label">Sello de flexi:</span> {{ carga.sello_flexi }}</p>
+            <p><span class="info-label">Número de naviera:</span> {{ carga.numero_naviera }}</p>
+            <p><span class="info-label">Fierros de reforzamiento:</span> {{ carga.fierros_ref }}</p>
             <p><span class="info-label">Comentarios:</span> {{ carga.comentarios }}</p>
             <a href="{% url 'descargar_carga_pdf' tipo=tipo pk=carga.id %}" class="btn btn-success mb-3">Descargar PDF</a>
             {% if carga.imagenes.all %}
