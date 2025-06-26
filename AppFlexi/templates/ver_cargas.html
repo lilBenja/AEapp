@@ -18,6 +18,8 @@
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
       padding: 24px 18px 32px 18px;
+      box-sizing: border-box;
+      width: 100%;
     }
     h3 {
       color: #2a4d69;
@@ -108,6 +110,11 @@
     @media (max-width: 600px) {
       .container {
         padding: 10px 4px 18px 4px;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        min-width: 0;
+        width: 100vw;
       }
       form {
         flex-direction: column;
@@ -116,16 +123,26 @@
       form label, form select, form input[type="date"], form button[type="submit"] {
         flex: 1 1 100%;
         width: 100%;
+        box-sizing: border-box;
       }
       ul li {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
+        font-size: 1em;
+        padding: 10px 8px;
       }
       .actions {
         flex-direction: column;
         gap: 8px;
         align-items: stretch;
+      }
+      h3 {
+        font-size: 1.1em;
+        margin-top: 18px;
+      }
+      body {
+        padding: 0;
       }
     }
   </style>
@@ -152,7 +169,7 @@
             <option value="Otra">Otra empresa</option>
         </select>
 
-        <label>Fecha:</label>
+    
 
     <label for="fecha">Fecha de Armado:</label>
     <input type="date" name="fecha" id="fecha" value="{{ request.GET.fecha }}">
@@ -180,10 +197,7 @@
     {% endfor %}
   </ul>
 
-  <div class="actions">
-    <button type="button" onclick="window.history.back()">Volver</button>
-    <a href="{% url 'menu' %}">Volver al menú</a>
-  </div>
+  <a class="back-link" href="{% url 'menu' %}">← Volver al Menú</a>
 </div>
 </body>
 </html>
